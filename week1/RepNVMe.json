@@ -1,0 +1,28 @@
+{
+  "critical_warning": 0,
+  "temperature": 305,
+  "available_spare": 100,
+  "available_spare_threshold": 10,
+  "percentage_used": 4,
+  "data_units_read": 1837291,
+  "data_units_written": 2190044,
+  "host_reads": 28499123,
+  "host_writes": 19055210,
+  "power_cycles": 212,
+  "power_on_hours": 3841,
+  "unsafe_shutdowns": 3,
+  "media_errors": 0,
+  "num_err_log_entries": 1,
+  "warning_temp_time": 0,
+  "critical_comp_time": 0,
+  "temperature_sensors": [
+    305,
+    307,
+    304,
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}
