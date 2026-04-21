@@ -7,7 +7,7 @@ def read_diskstats():
             parts = line.split()
             device = parts[2] # device type
             reads = int(parts[3]) # total reads done 
-            writes = int(parts[7]) # total reads done
+            writes = int(parts[7]) # total writes done
             stats[device] = (reads,writes)
     return stats
 prev = read_diskstats()
