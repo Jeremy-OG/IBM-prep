@@ -23,10 +23,14 @@ class StorageDevice:
                     print("TRUE, it is SSD")
 
     def get_name(self):
-        pass
+        with open(f"/sys/block/{self.devPath}/device/model",'r') as f:
+            for line in f:
+                print(f"Model: {line}")
 
 path = StorageDevice('sda')
 
 path.get_capacity()
 print('--------------')
 path.is_ssd()
+print('--------------')
+path.get_name()
