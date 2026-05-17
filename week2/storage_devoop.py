@@ -14,7 +14,13 @@ class StorageDevice:
     
     
     def is_ssd(self):
-        pass
+        with open(f"/sys/block/{self.devPath}/queue/rotational", 'r') as f:
+            for line in f:
+
+                if int(line) == 1:
+                    print("FALSE, it is HDD")
+                else:
+                    print("TRUE, it is SSD")
 
     def get_name(self):
         pass
@@ -22,3 +28,5 @@ class StorageDevice:
 path = StorageDevice('sda')
 
 path.get_capacity()
+print('--------------')
+path.is_ssd()
