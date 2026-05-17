@@ -2,35 +2,33 @@ class StorageDevice:
     def __init__(self,devPath):
         self.devPath = devPath
 
-    def get_capacity(self):
+    @property
+    def capacity(self):
        with open(f'/sys/block/{self.devPath}/size','r') as f:
            for line in f:
                byte_sectors = line
-               bytes = int(byte_sectors) *512
                GB = int(byte_sectors)/1e9
-               print("bytesectors:", byte_sectors)
-               print('bytes:', bytes )
-               print("GigaBytes", GB)
-    
-    
+               return round(GB,5)
+    @property
     def is_ssd(self):
         with open(f"/sys/block/{self.devPath}/queue/rotational", 'r') as f:
             for line in f:
 
                 if int(line) == 1:
-                    print("FALSE, it is HDD")
+                    return False
                 else:
-                    print("TRUE, it is SSD")
+                    return True
 
-    def get_name(self):
+    @property
+    def name(self):
         with open(f"/sys/block/{self.devPath}/device/model",'r') as f:
             for line in f:
-                print(f"Model: {line}")
+                return line.strip()
 
 path = StorageDevice('sda')
 
-path.get_capacity()
+print(f"Capacity: {path.capacity} GB")
 print('--------------')
-path.is_ssd()
+print(f"Path is ssd: {path.is_ssd}")
 print('--------------')
-path.get_name()
+print(f"Model: {path.name}")
