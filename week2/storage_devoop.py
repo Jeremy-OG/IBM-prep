@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-import subprocess
 import json
 
 
@@ -31,12 +30,11 @@ class StorageDevice:
                 return line.strip()
             
     def get_smart_health(self):
-        health = subprocess.run(["sudo","smartctl", "-j", "-a", self.devPath], capture_output=True,text=True)
-
-        print(health.stdout)
+        with open(self.devPath,"r") as f:
+            json_obj = json.load(f)
         
 
-path = StorageDevice('/dev/sda')
+path = StorageDevice('smart_sample.json')
 
 print(path.get_smart_health())
 #print(f"Capacity: {path.capacity} GB")
