@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 import json
 
+@dataclass
+class DiskHealth:
+    temperature: int
+    power_on_hours:int
+    reallocated_sectors: int
+    healthy: bool
+
+
 
 class StorageDevice:
     def __init__(self,devPath):
@@ -31,7 +39,14 @@ class StorageDevice:
             
     def get_smart_health(self):
         with open(self.devPath,"r") as f:
-            json_obj = json.load(f)
+            data = json.load(f)
+
+        return DiskHealth(
+            temperature=data["temperature"]["current"],
+            power_on_hours=data["power_on_time"]["hours"],
+            reallocated_sectors=data["ata_smart_attributes"]["table"][0]["raw"]["value"],
+            healthy=data['smart_status']['passed']
+        )
         
 
 path = StorageDevice('smart_sample.json')
