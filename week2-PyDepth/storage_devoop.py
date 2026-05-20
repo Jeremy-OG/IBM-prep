@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 import json
+from typing import Optional
+
 
 @dataclass
 class DiskHealth:
@@ -11,33 +13,27 @@ class DiskHealth:
 
 
 class StorageDevice:
-    def __init__(self,devPath):
+    def __init__(self,devPath:str) -> None:
         self.devPath = devPath
 
     @property
-    def capacity(self):
+    def capacity(self) -> float:
        with open(f'/sys/block/{self.devPath}/size','r') as f:
-           for line in f:
-               byte_sectors = line
-               GB = int(byte_sectors)/1e9
-               return round(GB,5)
-    @property
-    def is_ssd(self):
-        with open(f"/sys/block/{self.devPath}/queue/rotational", 'r') as f:
-            for line in f:
-
-                if int(line) == 1:
-                    return False
-                else:
-                    return True
-
-    @property
-    def name(self):
-        with open(f"/sys/block/{self.devPath}/device/model",'r') as f:
-            for line in f:
-                return line.strip()
             
-    def get_smart_health(self):
+            byte_sectors = f.read().strip()
+            GB = int(byte_sectors)/1e9
+            return round(GB,5)
+    @property
+    def is_ssd(self) -> bool:
+        with open(f"/sys/block/{self.devPath}/queue/rotational", 'r') as f:
+            return f.read().strip() == 0
+
+    @property
+    def name(self) -> Optional[str]:
+        with open(f"/sys/block/{self.devPath}/device/model",'r') as f:
+                return f.read().strip() or None
+            
+    def get_smart_health(self) -> DiskHealth:
         with open(self.devPath,"r") as f:
             data = json.load(f)
 
