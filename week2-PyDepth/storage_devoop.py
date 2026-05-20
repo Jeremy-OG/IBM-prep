@@ -19,7 +19,6 @@ class StorageDevice:
     @property
     def capacity(self) -> float:
        with open(f'/sys/block/{self.devPath}/size','r') as f:
-            
             byte_sectors = f.read().strip()
             GB = int(byte_sectors)/1e9
             return round(GB,5)
