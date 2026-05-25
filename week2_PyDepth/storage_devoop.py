@@ -28,7 +28,7 @@ class StorageDevice:
     @property
     def is_ssd(self) -> bool:
         with open(f"/sys/block/{self.devPath}/queue/rotational", 'r') as f:
-            return f.read().strip() == 0
+            return f.read().strip() == "0"
 
     @property
     def name(self) -> Optional[str]:
