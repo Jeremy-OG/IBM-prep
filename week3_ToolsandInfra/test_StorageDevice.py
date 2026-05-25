@@ -17,3 +17,8 @@ class TestStorageclass(unittest.TestCase):
         with patch("builtins.open",mock_open(read_data="0\n")):
             device = StorageDevice("sda")
             assert device.is_ssd == True
+
+    def test_name(self):
+        with patch("builtins.open",mock_open(read_data="Samsung SSD 870\n")):
+            device = StorageDevice("sda")
+            assert device.name == "Samsung SSD 870"
