@@ -71,6 +71,14 @@ class TestStorageclass(unittest.TestCase):
                 result = asyncio.run(device.get_smart_health())
                 assert isinstance(result, DiskHealth)
 
-    
+    def test_get_smart_health_invalid_data(self):
+        mock_file = AsyncMock()
+        mock_file.__aenter__.return_value.read = AsyncMock(return_value='placeholder')
+        
+        with patch("aiofiles.open", return_value=mock_file):
+            with patch("json.loads", side_effect=KeyError):
+                device = StorageDevice("fake.json")
+                with self.assertRaises(KeyError):
+                    asyncio.run(device.get_smart_health())
 
 
