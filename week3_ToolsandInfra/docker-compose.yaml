@@ -1,0 +1,21 @@
+
+services:
+  monitor:
+    build: .
+    privileged: true
+    volumes:
+      - /proc/:/proc:ro
+      - storage_data:/app/data
+
+
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - storage_data:/var/lib/postgresql/data
+
+  
+volumes:
+  storage_data:
