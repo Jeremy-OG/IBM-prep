@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+
+jobs:
+  test:
+      runs-on: ubuntu-latest
+
+
+      strategy:
+        matrix:
+          python-version: ["3.11", "3.12"]
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+        
+
+        - name: Set up Python ${{ matrix.python-version }}
+          uses: actions/setup-python@v5
+          with:
+              python-version: ${{ matrix.python-version }}
+
+
+        - name: Install Dependencies
+          run: |
+            pip install flake8 mypy pytest pytest-cov aiofiles types-aiofiles prometheus_client
+
+        - name: Run flake8
+          run: |
+            flake8 . --max-line-length=120 --exclude=.venv
+
+        - name: Run mypy
+          run: |
+            mypy week2_PyDepth/storage_devoop.py
+
+        - name: Run pytest
+          run: |
+            pytest week3_ToolsandInfra/test_StorageDevice.py --cov=week2_PyDepth --cov-report=term-missing
