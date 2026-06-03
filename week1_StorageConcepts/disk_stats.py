@@ -15,7 +15,7 @@ prev = read_diskstats()
 if __name__ == "__main__":
     while True:
         time.sleep(2)
-        print(f"{"DEVICE":<12}{"READS/S":<12}{"WRITES/S":<12}")
+        print(f"{'DEVICE':<12}{'READS/S':<12}{'WRITES/S':<12}")
         print("-"*36)
         curr = read_diskstats()
         for device in curr:

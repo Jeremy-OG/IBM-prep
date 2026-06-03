@@ -1,4 +1,4 @@
-print(f"{"DEVICE":<20}{"FS_TYPE":<12}{"OPTIONS"}")
+print(f"{'DEVICE':<20}{'FS_TYPE':<12}{'OPTIONS'}")
 print("-----------         --------    --------")
 with open("/proc/mounts","r") as f:
     for line in f:
