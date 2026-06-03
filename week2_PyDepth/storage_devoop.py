@@ -49,7 +49,7 @@ class StorageDevice:
         )
         
 
-async def poll_all_devices(devices:list[str]) ->Iterable[tuple]:
+async def poll_all_devices(devices:list[str]) -> None:
         coroutines = [StorageDevice(device).get_smart_health() for device in devices]
         results = await asyncio.gather(*coroutines)
         for result in  results:
