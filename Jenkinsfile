@@ -5,8 +5,8 @@ pipeline {
         stage('Install Python & Dependencies') {
             steps {
                 sh '''
-                    sudo apt-get update -q
-                    sudo apt-get install -y python3 python3-pip
+                    apt-get update -q
+                    apt-get install -y python3 python3-pip
                     pip3 install flake8 mypy pytest pytest-cov aiofiles types-aiofiles prometheus_client --break-system-packages
                 '''
             }
