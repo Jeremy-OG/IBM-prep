@@ -1,10 +1,11 @@
+A
 pipeline {
     agent any
 
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'pip install flake8 mypy pytest pytest-cov aiofiles types-aiofiles prometheus_client'
+                sh 'pip3 install flake8 mypy pytest pytest-cov aiofiles types-aiofiles prometheus_client'
             }
         }
 
