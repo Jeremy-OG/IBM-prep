@@ -1,14 +1,14 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.12-slim'
-        }
-    }
+    agent any
 
     stages {
-        stage('Install Dependencies') {
+        stage('Install Python & Dependencies') {
             steps {
-                sh 'pip install flake8 mypy pytest pytest-cov aiofiles types-aiofiles prometheus_client'
+                sh '''
+                    apt-get update -q
+                    apt-get install -y python3 python3-pip
+                    pip3 install flake8 mypy pytest pytest-cov aiofiles types-aiofiles prometheus_client --break-system-packages
+                '''
             }
         }
 
