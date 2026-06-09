@@ -1,6 +1,7 @@
 import requests
 from dataclasses import dataclass
 from typing import Optional
+import json
 
 @dataclass
 class DriveHealth:
@@ -18,7 +19,10 @@ class RedfishClient:
         self.password = password
 
     def get(self,path:str)->dict:
-        pass
+        response= requests.get(self.base_url+path,
+                    auth=(self.user,self.password),
+                    verify=False)
+        return response.json()
 
     def get_drives(self)->list[DriveHealth]:
         pass
