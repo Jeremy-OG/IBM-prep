@@ -25,5 +25,20 @@ class RedfishClient:
         return response.json()
 
     def get_drives(self)->list[DriveHealth]:
-        root = self.get("/redfish/v1")
         systems=self.get("/redfish/v1/Systems")
+        drives=[]
+        for system in systems["Members"]:
+            storage = self.get(system["aodata.id"]+"/Storage")
+            for controller in storage["Members"]:
+                drive_collection=self.get(controller["@odata.id"]+"/Drives")
+                for drive_ref in drive_collection["Members"]:
+                    drive = self.get(drive_ref["@odata.id"])
+                    drives.append(DriveHealth(
+                        name=drive["Name"],
+                        state=drive["Status"]["State"],
+                        health=drive["Status"]["Health"],
+                        capacity_bytes=drive["CapacityBytes"],
+                        protocol=drive["Protocol"]
+                    ))
+
+        return drives
