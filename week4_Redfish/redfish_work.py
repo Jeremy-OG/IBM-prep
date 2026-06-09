@@ -19,10 +19,11 @@ class RedfishClient:
         self.password = password
 
     def get(self,path:str)->dict:
-        response= requests.get(self.base_url+path,
+        response = requests.get(self.base_url+path,
                     auth=(self.user,self.password),
                     verify=False)
         return response.json()
 
     def get_drives(self)->list[DriveHealth]:
-        pass
+        root = self.get("/redfish/v1")
+        systems=self.get("/redfish/v1/Systems")
