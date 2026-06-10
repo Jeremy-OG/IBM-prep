@@ -28,7 +28,7 @@ class RedfishClient:
         systems=self.get("/redfish/v1/Systems")
         drives=[]
         for system in systems["Members"]:
-            storage = self.get(system["aodata.id"]+"/Storage")
+            storage = self.get(system["@odata.id"]+"/Storage")
             for controller in storage["Members"]:
                 drive_collection=self.get(controller["@odata.id"]+"/Drives")
                 for drive_ref in drive_collection["Members"]:

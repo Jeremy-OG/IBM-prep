@@ -12,6 +12,32 @@ class TestRedfish(unittest.TestCase):
             mock_response.json.return_value = MOCK_SYSTEMS
             mock_get.return_value = mock_response
 
-            client = RedfishClient("https://fakeip","admin","admin")
+            client = RedfishClient("https://fakeip","admin","password")
             result = client.get("/redfish/v1/")
             assert result == MOCK_SYSTEMS
+
+
+    def _make_response(self,data):
+            mock_response = MagicMock()
+            mock_response.json.return_value = data
+            return mock_response
+
+    def test_get_drives(self):
+        with patch("requests.get") as mock_get:
+            mock_get.side_effect=[
+                self._make_response(MOCK_SYSTEMS),
+                self._make_response(MOCK_STORAGE),
+                self._make_response(MOCK_DRIVE_COLLECTION),
+                self._make_response(MOCK_DRIVE),
+            ]
+
+            client = RedfishClient("http://fakeip","admin","password")
+            drives = client.get_drives()
+
+            assert len(drives)==1
+            assert drives[0].name == "Drive 1"
+            assert drives[0].health =="OK"
+            assert drives[0].protocol == "NVMe"
+            
+
+    
